@@ -1,0 +1,28 @@
+{
+  "name": "note-relation",
+  "version": "1.0.0",
+  "description": "A tool to discover connections between notes using RAG technology",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "note-relation": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "tsx src/tests/index.ts"
+  },
+  "keywords": ["notes", "rag", "knowledge-base"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@langchain/textsplitters": "^0.1.0",
+    "commander": "^13.1.0"
+  }
+}
