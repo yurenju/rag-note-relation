@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Vectorizer } from "./lib/vectorizer.js";
 import path from "path";
 import { DocumentProcessor } from "./lib/document-processor.js";

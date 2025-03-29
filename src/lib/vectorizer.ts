@@ -1,17 +1,11 @@
 import { connect } from "@lancedb/lancedb";
-import {
-  pipeline,
-  Pipeline,
-  AutoTokenizer,
-  PreTrainedModel,
-} from "@xenova/transformers";
+import { pipeline, Pipeline } from "@xenova/transformers";
 import {
   Schema,
   Field,
   Utf8,
   Float32,
   FixedSizeList,
-  Struct,
   Int32,
 } from "apache-arrow";
 import { Table, Index } from "@lancedb/lancedb";
