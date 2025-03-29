@@ -1,55 +1,88 @@
 # Note Relation Generator
 
-[English](README.md) | [繁體中文](README.zh-TW.md)
+A tool that uses RAG (Retrieval-Augmented Generation) technology to help you discover connections between your notes. It analyzes your Markdown notes and uses a vector database to find the most relevant content.
 
-A project designed to help users discover connections between their notes, enabling more efficient organization and exploration of their knowledge base.
+## Installation
 
-## Project Overview
+```bash
+npm install -g rag-note-relation
+```
 
-The project consists of two main phases:
+## Usage
 
-### 1. Indexing Phase
-- Scans and analyzes all note contents
-- Creates intelligent indices for subsequent relation searches
-- Utilizes RAG (Retrieval-Augmented Generation) technology to enhance indexing quality
+### 1. Initialize Vector Database
 
-### 2. Search Phase
-- Users can provide a note or document as a search basis
-- The system analyzes the document content
-- Automatically identifies the top 10 most related notes
-- Employs LLM (Large Language Model) technology to ensure accuracy and relevance of results
+Before using the tool, you need to initialize the vector database:
 
-## Core Features
+```bash
+rag-note-relation init [--db-path <path>] [--overwrite]
+```
 
-1. **Intelligent Note Indexing**
-   - Automatic processing and analysis of note content
-   - Creation of high-performance search indices
+Options:
 
-2. **Related Note Recommendations**
-   - Recommends most relevant notes based on input content
-   - Displays top 10 most related notes
+- `--db-path <path>`: Specify the storage location for the vector database (default: ./.lancedb)
+- `--overwrite`: Overwrite existing database
 
-3. **Flexible Usage**
-   - Supports Markdown format notes
-   - Developed in TypeScript for maintainability and extensibility
+### 2. Search Related Notes
 
-## Use Case
+```bash
+rag-note-relation search <file> [-l, --limit <number>] [--db-path <path>]
+```
 
-This project primarily assists knowledge workers in building knowledge relation networks by automatically discovering potential connections between notes.
+Options:
 
-## Expected Benefits
+- `<file>`: The note file to find relations for
+- `-l, --limit <number>`: Number of results to return (default: 5)
+- `--db-path <path>`: Vector database location (default: ./.lancedb)
 
-1. **Knowledge Connection Assistant**
-   - Helps users discover potential knowledge connections
-   - Serves as a knowledge exploration tool
-   - Provides initial relation suggestions to inspire deeper thinking
+## Technical Details
 
-2. **Knowledge Internalization**
-   - Guides users to rethink knowledge structure through discovered connections
-   - Assists users in building more complete mental knowledge networks
-   - Supports users in deepening understanding and reorganizing knowledge
+- Uses [jina-embeddings-v2-base-zh](https://huggingface.co/Xenova/jina-embeddings-v2-base-zh) model for text vectorization
+- Uses [LanceDB](https://github.com/lancedb/lancedb) as the vector database
+- Supports Markdown format notes
+- Automatically splits notes into smaller chunks for better search accuracy
+- Uses cosine similarity to calculate relationships between notes
 
-3. **Learning Process Optimization**
-   - Lowers the barrier to discovering knowledge connections
-   - Guides users to actively think and build knowledge connections
-   - Acts as a knowledge integration assistant tool, rather than replacing human thinking 
+## Project Vision and Overview
+
+For more information about the project's vision and overview, please refer to:
+
+- [English Version](docs/project-vision.md)
+- [Traditional Chinese Version](docs/project-vision.zh-TW.md)
+
+## Development
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/rag-note-relation.git
+cd rag-note-relation
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Development mode:
+
+During development, you can use `npm run dev` to run the program. All commands can be used by adding `--` after `npm run dev`:
+
+```bash
+# Initialize database
+npm run dev -- init [--db-path <path>] [--overwrite]
+
+# Search related notes
+npm run dev -- search <file> [-l, --limit <number>] [--db-path <path>]
+
+# Examples:
+npm run dev -- init --db-path ./my-db
+npm run dev -- search ./notes/my-note.md -l 10
+```
+
+These commands will use your local development code, making it convenient for testing and debugging.
+
+## License
+
+MIT License

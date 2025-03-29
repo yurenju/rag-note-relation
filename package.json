@@ -1,11 +1,11 @@
 {
-  "name": "note-relation",
+  "name": "rag-note-relation",
   "version": "1.0.0",
   "description": "A tool to discover connections between notes using RAG technology",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "note-relation": "./dist/index.js"
+    "rag-note-relation": "./dist/index.js"
   },
   "scripts": {
     "dev": "tsx src/index.ts",
