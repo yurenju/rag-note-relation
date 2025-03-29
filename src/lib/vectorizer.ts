@@ -113,14 +113,10 @@ export class Vectorizer {
     // Process all markdown files in notes directory
     console.log("Processing markdown files...");
     const allFiles = await this.processor.readMarkdownFiles("./notes");
-    const files = allFiles.slice(0, 300);
-    console.log(
-      `Found ${allFiles.length} markdown files, processing first ${files.length}`
-    );
 
     console.log("Vectorizing chunks...");
     const data: VectorData[] = [];
-    for (const file of files) {
+    for (const file of allFiles) {
       console.log(`Processing ${file}...`);
       const processedData = await this.processor.processFile(file);
       for (let i = 0; i < processedData.chunks.length; i++) {
@@ -201,9 +197,15 @@ export class Vectorizer {
 
     const results = await table
       .search(queryVector)
-      .select(["id", "text", "metadata", "_distance"])
-      .limit(limit);
+      .select(["id", "text", "source", "from", "to"])
+      .limit(limit)
+      .toArray();
 
-    return results as unknown as SearchResult[];
+    return results.map((result: any) => ({
+      id: result.id,
+      text: result.text,
+      metadata: `📄 ${result.source} (Lines ${result.from}-${result.to})`,
+      _distance: result._distance,
+    }));
   }
 }
