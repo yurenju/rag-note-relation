@@ -3,10 +3,13 @@
 ## Project Development Phases
 
 ### Phase 1: Infrastructure and Document Processing
+
 **Objective**: Establish project infrastructure and implement document reading functionality
 
 **Completion Criteria**:
+
 1. Project Base Setup
+
    - TypeScript project initialization
    - Establish necessary directory structure:
      - `/tests/data`: Test dataset
@@ -21,12 +24,15 @@
    - Complete unit tests
 
 **Acceptance Criteria**:
+
 - Execute automated tests to verify all functionalities ✅
 - Verify document chunking accuracy using test data ✅
 - Confirm proper Chinese text processing ✅
 
 **Implementation Status (Phase 1 Complete)**:
+
 1. Project Base Setup:
+
    - ✅ TypeScript project initialized with proper configuration
    - ✅ Directory structure established (`/src`, `/tests/data`)
    - ✅ Basic CLI framework implemented using Commander.js
@@ -48,10 +54,13 @@ The next phase will focus on vectorization and database integration. The impleme
 Please refer to Phase 2 section of this document for the next implementation steps.
 
 ### Phase 2: Vectorization and Database Integration
+
 **Objective**: Implement document vectorization and data storage functionality
 
 **Completion Criteria**:
+
 1. Vectorization Implementation
+
    - Integrate jinaai/jina-embeddings-v2-base-zh model
    - Implement text vectorization functionality
    - Ensure stable vectorization process
@@ -63,14 +72,53 @@ Please refer to Phase 2 section of this document for the next implementation ste
    - Implement database CRUD operations
 
 **Acceptance Criteria**:
+
 - Verify consistency of vectorization results
 - Validate database operations reliability
 
+**Implementation Notes**:
+
+1. Vectorization Implementation:
+
+   - Adopted `@xenova/transformers` with `Xenova/jina-embeddings-v2-base-zh` model for client-side vectorization
+   - Implemented mean pooling and vector normalization
+   - Configured document chunking with size 100 and overlap 20
+   - Maintained consistent vector dimension (768)
+
+2. Database Operations:
+
+   - Utilized LanceDB for vector storage
+   - Flattened data structure for better reliability:
+     - `id`: unique identifier for each chunk
+     - `text`: original content
+     - `embeddings`: vector representation
+     - `source`: file path
+     - `from`: starting line number
+     - `to`: ending line number
+   - Added database existence check and overwrite protection
+   - Limited initial processing to 20 files for testing
+
+3. Key Features:
+
+   - Client-side model execution without API dependency
+   - Batch processing for multiple markdown files
+   - Configurable database initialization with `--overwrite` option
+   - Simplified flat schema design for better maintainability
+
+4. Technical Decisions:
+   - Chose Xenova's model for browser compatibility
+   - Flattened metadata structure to avoid Arrow schema complexity
+   - Added file limit for initial testing and development
+   - Removed unused dependencies (@huggingface/inference)
+
 ### Phase 3: Search Functionality Implementation
+
 **Objective**: Complete similarity search functionality
 
 **Completion Criteria**:
+
 1. Search Feature Development
+
    - Implement vector similarity calculation
    - Complete Top-K search functionality
    - Optimize search performance
@@ -82,6 +130,7 @@ Please refer to Phase 2 section of this document for the next implementation ste
    - Add progress display functionality
 
 **Acceptance Criteria**:
+
 - Execute performance tests
 - Verify search result accuracy
 - User Experience Testing:
@@ -92,10 +141,13 @@ Please refer to Phase 2 section of this document for the next implementation ste
   - Documentation Completeness: Verify help command provides sufficient usage instructions
 
 ### Phase 4: Testing and Evaluation
+
 **Objective**: Establish comprehensive testing system and conduct effectiveness evaluation
 
 **Completion Criteria**:
+
 1. Automated Testing System
+
    - Use LLM to generate test dataset (stored in `/tests/data` directory)
    - Create test cases with known answers
    - Implement automated testing process
@@ -103,6 +155,7 @@ Please refer to Phase 2 section of this document for the next implementation ste
    - Ensure test data is completely separate from actual dataset (`/notes`)
 
 2. Test Data Generation
+
    - Design test data generation rules
    - Implement different types of test data:
      - Simple relation test set
@@ -111,6 +164,7 @@ Please refer to Phase 2 section of this document for the next implementation ste
    - Create test data answer key
 
 3. Manual Testing Plan
+
    - Design user test cases
    - Establish test scoring criteria
    - Prepare test documentation templates
@@ -122,7 +176,8 @@ Please refer to Phase 2 section of this document for the next implementation ste
    - Resource Usage Efficiency
 
 **Acceptance Criteria**:
+
 - Execute complete automated testing process
 - Conduct actual user testing
 - Generate test reports and analysis
-- Verify test results applicability on actual dataset 
+- Verify test results applicability on actual dataset
