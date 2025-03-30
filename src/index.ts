@@ -76,7 +76,11 @@ program
       filteredResults.forEach((result, index) => {
         const similarity = ((1 - result._distance) * 100).toFixed(2);
         console.log(`${index + 1}. Similarity: ${similarity}%`);
-        console.log(`   ${result.metadata}`);
+        console.log(`   📄 ${result.metadata}`);
+        if (result.explanation) {
+          console.log(`   ${result.explanation}`);
+        }
+        console.log();
       });
     } catch (error) {
       console.error("Error during search:", error);

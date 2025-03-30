@@ -11,6 +11,7 @@ import {
 import { Table, Index } from "@lancedb/lancedb";
 import { DocumentProcessor } from "./document-processor.js";
 import { existsSync } from "fs";
+import { OpenAIService } from "./openai.js";
 
 interface ChunkMetadata {
   loc: {
@@ -36,6 +37,7 @@ export interface SearchResult {
   text: string;
   metadata: string;
   _distance: number;
+  explanation?: string;
 }
 
 type FeatureExtractionPipeline = Pipeline & {
@@ -195,11 +197,27 @@ export class Vectorizer {
       .limit(limit)
       .toArray();
 
-    return results.map((result: any) => ({
-      id: result.id,
-      text: result.text,
-      metadata: `📄 ${result.source} (Lines ${result.from}-${result.to})`,
-      _distance: result._distance,
-    }));
+    try {
+      const openai = new OpenAIService();
+      const resultsWithExplanation = await Promise.all(
+        results.map(async (result: any) => ({
+          id: result.id,
+          text: result.text,
+          metadata: result.source,
+          _distance: result._distance,
+          explanation: await openai.explainRelation(query, result.text),
+        }))
+      );
+      return resultsWithExplanation;
+    } catch (error) {
+      console.warn("OpenAI explanation failed:", error);
+      // Fallback to results without explanation if OpenAI fails
+      return results.map((result: any) => ({
+        id: result.id,
+        text: result.text,
+        metadata: result.source,
+        _distance: result._distance,
+      }));
+    }
   }
 }

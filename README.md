@@ -19,6 +19,16 @@ cd rag-note-relation
 npm install
 ```
 
+3. Set up environment variables:
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Edit .env and add your OpenAI API key
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
 ## Usage
 
 All commands should be run using `npm run dev`. This will use your local development code, making it convenient for testing and debugging.
@@ -48,6 +58,12 @@ Options:
 - `-l, --limit <number>`: Number of results to return (default: 5)
 - `--db-path <path>`: Vector database location (default: ./.lancedb)
 
+The search results will include:
+
+- Similarity percentage with the input note
+- File path of the related note
+- An AI-generated explanation of why the notes are related
+
 ### Examples:
 
 ```bash
@@ -62,6 +78,7 @@ npm run dev -- search ./notes/my-note.md -l 10
 
 - Uses [jina-embeddings-v2-base-zh](https://huggingface.co/Xenova/jina-embeddings-v2-base-zh) model for text vectorization
 - Uses [LanceDB](https://github.com/lancedb/lancedb) as the vector database
+- Uses [OpenAI GPT-4o-mini](https://platform.openai.com/) for explaining note relationships
 - Supports Markdown format notes
 - Automatically splits notes into smaller chunks for better search accuracy
 - Uses cosine similarity to calculate relationships between notes
