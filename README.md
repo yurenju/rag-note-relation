@@ -9,7 +9,7 @@ This project is primarily created for learning RAG technology and is not intende
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/rag-note-relation.git
+git clone https://github.com/yurenju/rag-note-relation.git
 cd rag-note-relation
 ```
 

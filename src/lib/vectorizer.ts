@@ -1,5 +1,5 @@
 import { connect } from "@lancedb/lancedb";
-import { pipeline, Pipeline } from "@xenova/transformers";
+import { pipeline, Pipeline } from "@huggingface/transformers";
 import {
   Schema,
   Field,
